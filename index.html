@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fitness Shop - Tienda de productos fitness</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+    /* Slider CSS mejorado - completamente responsive */
+.slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 30px;
+    max-height: 80vh; /* Máximo 80% del viewport height */
+    aspect-ratio: 16/9; /* Relación de aspecto inicial */
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%; /* Ajustado para el nuevo enfoque */
+    height: 100%;
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cubre el área manteniendo relación de aspecto */
+    object-position: center; /* Centra la imagen */
+    display: block;
+}
+
+.slider-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 15px;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.slider-buttons button {
+    pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.slider-buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+/* Media queries para ajustes específicos */
+@media (max-width: 768px) {
+    .slider {
+        aspect-ratio: 4/3; /* Relación más cuadrada en móviles */
+    }
+    
+    .slider-buttons button {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slider {
+        aspect-ratio: 1/1; /* Cuadrado en móviles muy pequeños */
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-flex">
+        <h1 class="logo">Fitness Shop</h1>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </div>
+</header>
+
+<nav class="categories-nav">
+    <div class="container">
+        <a href="index.html" id="nav-home">Inicio</a>
+        <a href="categorias.html" id="nav-products">Productos</a>
+        <a href="carrito.html" id="nav-cart">Carrito</a>
+    </div>
+</nav>
+
+<!-- Slider -->
+<div class="slider">
+    <div class="slides" id="slides">
+        <div class="slide">
+            <img src="images/slider1.jpg" alt="Slider 1" loading="lazy" />
+        </div>
+        <div class="slide">
+            <img src="images/slider2.jpg" alt="Slider 2" loading="lazy" />
+        </div>
+        <div class="slide">
+            <img src="images/slider3.jpg" alt="Slider 3" loading="lazy" />
+        </div>
+    </div>
+    <div class="slider-buttons">
+        <button id="prev"><i class="fas fa-chevron-left"></i></button>
+        <button id="next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+</div>
+
+<main class="main">
+    <div class="container">
+
+        <!-- Quienes somos -->
+        <section class="about">
+            <h2 class="section-title">Quiénes Somos</h2>
+            <p>En Fitness Shop nos apasiona el bienestar y la salud. Ofrecemos los mejores productos para que alcances tus objetivos fitness. ¡Transforma tu vida con nosotros!</p>
+        </section>
+
+        <!-- Productos destacados -->
+        <h2 class="section-title">Productos Destacados</h2>
+        <div id="product-list" class="product-grid"></div>
+
+        <!-- Ver categoría completa -->
+        <div class="view-category">
+            <a href="categorias.html">Ver Categoría Completa</a>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container footer-flex">
+        <div class="footer-section">
+            <h4>Fitness Shop</h4>
+            <p>Tu tienda de confianza en productos fitness. ¡Calidad y bienestar!</p>
+        </div>
+        <div class="footer-section">
+            <h4>Enlaces</h4>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="categorias.html">Productos</a></li>
+                <li><a href="carrito.html">Carrito</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Contacto</h4>
+            <p>Email: contacto@fitnessshop.com</p>
+            <p>Tel: +57 300 123 4567</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Fitness Shop. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<!-- Slider JS embebido -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.getElementById('slides');
+        const totalSlides = slides.children.length;
+        let index = 0;
+
+        function showSlide(i) {
+            index = (i + totalSlides) % totalSlides;
+            slides.style.transform = 'translateX(' + (-index * 100) + '%)';
+        }
+
+        // Botones prev/next
+        document.getElementById('next').addEventListener('click', function() {
+            showSlide(index + 1);
+        });
+
+        document.getElementById('prev').addEventListener('click', function() {
+            showSlide(index - 1);
+        });
+
+        // Auto play cada 5 seg
+        setInterval(function() {
+            showSlide(index + 1);
+        }, 5000);
+
+        // Mostrar la primera al iniciar
+        showSlide(index);
+    });
+</script>
+<script src="scripts/main.js"></script>
+</body>
+</html>
